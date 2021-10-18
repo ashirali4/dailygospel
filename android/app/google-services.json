@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "924470404704",
+    "project_id": "biblx-a46ee",
+    "storage_bucket": "biblx-a46ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924470404704:android:03d5a9d52f370e24a24505",
+        "android_client_info": {
+          "package_name": "com.example.dailygospel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924470404704-rlksv6cb37r00unf8oro4iihr607epac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYjoiMOgYjxEvR-lkOHoQZsFJatoARfQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924470404704-rlksv6cb37r00unf8oro4iihr607epac.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
