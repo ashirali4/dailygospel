@@ -23,4 +23,36 @@ class FirebaseOperations {
     });
     return data;
   }
+
+
+
+  Future<void> createData(String dailyGospelHeading,String dailyGospelMessage,
+      String todaymessageheading,String todaymessagecontent,
+      String youtubeid,String youtubeHeading) async {
+    if(dailyGospelHeading!='' && dailyGospelMessage!=''){
+      await databaseReference.child("appdata").child('daily_gospel').set({
+        'heading': dailyGospelHeading,
+        'message': dailyGospelMessage
+      });
+    }
+    if(todaymessageheading!='' && todaymessagecontent!=''){
+      await databaseReference.child("appdata").child('today_message').set({
+        'heading': todaymessageheading,
+        'message': todaymessagecontent
+      });
+    }
+
+    if(youtubeid!='' && youtubeHeading!=''){
+      await databaseReference.child('appdata').child("videos").child('current').set({
+        'title': youtubeHeading,
+        'id': youtubeid
+      });
+      await databaseReference.child('appdata').child("videos").child('previous').child(youtubeid).set({
+        'title': youtubeHeading,
+        'id': youtubeid
+      });
+    }
+
+
+  }
 }
