@@ -1,3 +1,4 @@
+import 'package:dailygospel/src/net/firebase_functions.dart';
 import 'package:dailygospel/src/screens/message_screen.dart';
 import 'package:dailygospel/src/screens/youtube_screen.dart';
 import 'package:dailygospel/src/utils/enum_message.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../data.dart';
+import '../model.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -15,6 +17,10 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+
+  FirebaseOperations operations = FirebaseOperations();
+  AppDataModel data=AppDataModel(MessageModel('',''), MessageModel('',''),YouTubeLink(SingleLinkModel('',''),[]));
+
   void onClick(String messageHeading, String message, String messageTypeText,
       MessageType messageType) {
     Get.to(() => MessageScreen(
@@ -27,10 +33,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void youtubeCall(String messageHeading, String url, List<String> urlList) {
     Get.to(() => YouTubeScreen(
-          messageHeading: messageHeading,
-          listurl: [],
-          youtubeUrl: '',
+          youtubeUrl: data.links.currentLink,
+          listurl: data.links.previousLinks,
         ));
+  }
+
+  void initState() {
+    readData();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  readData() async {
+    data = await operations.readData();
   }
 
   @override
@@ -77,14 +92,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               HomepageButtonWidget(
                 buttonText: 'Today\'s Gospel',
                 buttonClick: () {
-                  onClick(MESSAGE_HEADING, MESSAGE, 'Today\'s Gospel',
+                  onClick(data.dailyGospel.heading, data.dailyGospel.message, 'Today\'s Gospel',
                       MessageType.Gospel);
                 },
               ),
               HomepageButtonWidget(
                 buttonText: 'Today\'s Message',
                 buttonClick: () {
-                  onClick(MESSAGE_HEADING, MESSAGE, 'Today\'s Message',
+                  onClick(data.messageModel.heading, data.messageModel.message, 'Today\'s Message',
                       MessageType.Message);
                 },
               ),

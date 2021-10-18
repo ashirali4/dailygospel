@@ -1,15 +1,14 @@
+import 'package:dailygospel/src/model.dart';
 import 'package:dailygospel/src/utils/enum_message.dart';
 import 'package:dailygospel/src/widgets/homepage_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class YouTubeScreen extends StatefulWidget {
-  final String youtubeUrl;
-  final List<String> listurl;
-  final String messageHeading;
+  final SingleLinkModel youtubeUrl;
+  final List<SingleLinkModel> listurl;
   const YouTubeScreen({
     Key? key,
     required this.youtubeUrl,
-    required this.messageHeading,
     required this.listurl
 
   }) : super(key: key);
@@ -19,12 +18,19 @@ class YouTubeScreen extends StatefulWidget {
 }
 
 class _YouTubeScreenState extends State<YouTubeScreen> {
-  final YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'iLnmTe5Q2Qw',
-    flags: const YoutubePlayerFlags(
-      autoPlay: false,
-    ),
-  );
+  YoutubePlayerController? controller;
+
+  @override
+  void initState() {
+    controller = YoutubePlayerController(
+      initialVideoId: widget.youtubeUrl.id,
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+      ),
+    );
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,13 +52,13 @@ class _YouTubeScreenState extends State<YouTubeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.messageHeading,
+              Text(widget.youtubeUrl.title,
                 style: const TextStyle(
                     fontSize: 21
                 ),),
               SizedBox(height: 30,),
               YoutubePlayer(
-                controller: _controller,
+                controller: controller!,
                 liveUIColor: Colors.amber,
               ),
               SizedBox(height: 40,),
@@ -61,9 +67,9 @@ class _YouTubeScreenState extends State<YouTubeScreen> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 4,
+                itemCount: widget.listurl.length,
                 itemBuilder: (context, position) {
-                  return listViewItems('videoId', 'date');
+                  return listViewItems(widget.listurl[position].id, widget.listurl[position].title);
                 },
               ),
             ],
@@ -74,12 +80,12 @@ class _YouTubeScreenState extends State<YouTubeScreen> {
   }
 
 
-  Widget listViewItems(String videoId,String date){
+  Widget listViewItems(String videoId,String data){
     return Padding(
       padding: const EdgeInsets.only(left: 5),
       child: Container(
         height: 60,
-        child: Text(widget.messageHeading,
+        child: Text(data,
           style: const TextStyle(
               fontSize: 21
           ),),
